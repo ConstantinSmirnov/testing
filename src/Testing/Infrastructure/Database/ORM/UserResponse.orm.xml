@@ -1,0 +1,24 @@
+<!-- config/doctrine/UserResponse.orm.xml -->
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Testing\Domain\Entity\UserResponse" table="testing_user_response">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <many-to-one field="question" target-entity="App\Testing\Domain\Entity\Question">
+            <join-column name="question_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="answer" target-entity="App\Testing\Domain\Entity\Answer">
+            <join-column name="answer_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="user" target-entity="App\Users\Domain\Entity\User">
+            <join-column name="user_ulid" referenced-column-name="ulid" />
+        </many-to-one>
+        <many-to-one field="testingSession" target-entity="App\Testing\Domain\Entity\TestingSession">
+            <join-column name="testing_session_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

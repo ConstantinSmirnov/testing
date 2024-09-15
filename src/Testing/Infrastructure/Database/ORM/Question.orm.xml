@@ -1,0 +1,15 @@
+<!-- config/doctrine/Question.orm.xml -->
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Testing\Domain\Entity\Question" table="testing_question">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="text" type="text" />
+        <field name="type" type="question_type" length="50" />
+        <one-to-many field="answers" target-entity="App\Testing\Domain\Entity\Answer" mapped-by="question" fetch="EXTRA_LAZY"/>
+    </entity>
+</doctrine-mapping>
