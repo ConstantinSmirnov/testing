@@ -1,5 +1,12 @@
 controllers:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Shared/Infrastructure/Controller/
+        namespace: App\Shared\Infrastructure\Controller
     type: attribute
+
+api_v1:
+    resource:
+        path: ../src/Testing/Infrastructure/Controller/
+        namespace: App\Testing\Infrastructure\Controller
+    type: attribute
+    prefix: /api/v1
