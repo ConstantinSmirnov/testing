@@ -9,4 +9,4 @@ api_v1:
         path: ../src/Testing/Infrastructure/Controller/
         namespace: App\Testing\Infrastructure\Controller
     type: attribute
-    prefix: /api/v1
+    prefix: /api/v1/testing

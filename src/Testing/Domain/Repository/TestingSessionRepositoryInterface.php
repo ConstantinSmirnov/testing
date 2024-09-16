@@ -10,4 +10,5 @@ interface TestingSessionRepositoryInterface
     public function add(TestingSession $testingSession): void;
     public function findById(int $id): ?TestingSession;
     public function findLatestByUserId(User $userUlid): ?TestingSession;
+    public function updateAnsweredQuestion(TestingSession $testingSession): void;
 }

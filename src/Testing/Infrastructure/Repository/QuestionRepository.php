@@ -35,7 +35,7 @@ class QuestionRepository extends ServiceEntityRepository implements QuestionRepo
         return $this->find($id);
     }
 
-    public function findAll(): array
+    public function findAllQuestions(): array
     {
         return $this->findAll();
     }

@@ -30,7 +30,6 @@ final class Version20240915065431 extends AbstractMigration
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('2 + 2 =', 'FUZZY_LOGIC')");
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('3 + 3 =', 'FUZZY_LOGIC')");
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('4 + 4 =', 'FUZZY_LOGIC')");
-        $this->addSql("INSERT INTO testing_question (text, type) VALUES ('5 + 5 =', 'FUZZY_LOGIC')");
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('5 + 5 =', 'IS_NOT_FUZZY_LOGIC')");
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('6 + 6 =', 'FUZZY_LOGIC')");
         $this->addSql("INSERT INTO testing_question (text, type) VALUES ('7 + 7 =', 'IS_NOT_FUZZY_LOGIC')");

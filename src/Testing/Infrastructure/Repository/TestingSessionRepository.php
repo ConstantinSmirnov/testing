@@ -34,4 +34,9 @@ class TestingSessionRepository extends ServiceEntityRepository implements Testin
     {
         return $this->findOneBy(['isEnd' => false, 'user' => $user]);
     }
+
+    public function updateAnsweredQuestion(TestingSession $testingSession): void
+    {
+        $this->entityManager->flush();
+    }
 }
