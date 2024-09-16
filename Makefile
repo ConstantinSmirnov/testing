@@ -18,7 +18,7 @@ dc_down:
 
 
 # Go inside container
-app_bash:
+php_bash:
 	docker-compose -f ./docker/docker-compose.yml exec -u www-data php-fpm bash
 
 next_bash:

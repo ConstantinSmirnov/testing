@@ -116,7 +116,7 @@ export default function Home() {
                             <form method="post" onSubmit={saveAnswerSubmit}>
                                 <div className={styles.question_row}>
                                     <div className={styles.question_wrapper}>
-                                        <span>{currentQuestion.question.id} вопрос... {currentQuestion.question.text}</span>
+                                        <span>{currentQuestion.question.id} question... {currentQuestion.question.text}</span>
                                     </div>
                                     <div className={styles.answer_containter}>
                                         {currentQuestion.answers.map((answer) => (
