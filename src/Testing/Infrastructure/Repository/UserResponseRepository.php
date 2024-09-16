@@ -20,19 +20,7 @@ class UserResponseRepository extends ServiceEntityRepository implements UserResp
 
     public function add(UserResponse $userResponse): void
     {
-        $existingUserResponse = $this->findOneBy(
-            [
-                'testingSession' => $userResponse->getTestingSession(),
-                'question' => $userResponse->getQuestion(),
-            ]
-        );
-
-        if ($existingUserResponse) {
-            $existingUserResponse->setAnswer($userResponse->getAnswer());
-        } else {
-            $this->entityManager->persist($userResponse);
-        }
-
+        $this->entityManager->persist($userResponse);
         $this->entityManager->flush();
     }
 }

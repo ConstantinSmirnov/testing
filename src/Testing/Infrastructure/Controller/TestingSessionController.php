@@ -64,6 +64,8 @@ class TestingSessionController extends AbstractController
                 $answersArray[] = ['id' => $answer->getId(), 'text' => $answer->getText()];
             }
 
+            shuffle($answersArray);
+
             $result[] = [
                 'question' => ['id' => $question->getId(), 'text' => $question->getText()],
                 'answers' => $answersArray
