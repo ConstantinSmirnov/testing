@@ -8,5 +8,5 @@ interface QuestionRepositoryInterface
 {
     public function findById(int $id): ?Question;
     public function findAllNotIn(array $ids): ?array;
-    public function findAll(): ?array;
+    public function findAllQuestions(): ?array;
 }

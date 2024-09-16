@@ -6,6 +6,8 @@ use App\Users\Domain\Entity\User;
 
 class TestingSession
 {
+    const QUESTION_COUNT = 10;
+
     private int $id;
     private bool $isEnd;
     private string $questionCombination;
@@ -36,6 +38,19 @@ class TestingSession
     public function isEnd(): bool
     {
         return $this->isEnd;
+    }
+
+    public function addAnsweredQuestion(string $questionId)
+    {
+        $questionIds = explode(',', $this->questionCombination);
+        $questionIds = array_filter($questionIds, fn($id) => $id !== '');
+        if (!in_array($questionId, $questionIds)) {
+            $questionIds[] = $questionId;
+            $this->questionCombination = implode(',', $questionIds);
+            if (count($questionIds) == self::QUESTION_COUNT-1) {
+                $this->isEnd = true;
+            }
+        }
     }
 
 }

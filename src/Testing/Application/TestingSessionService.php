@@ -43,4 +43,9 @@ class TestingSessionService
 
         return $session;
     }
+
+    public function findUserSession(int $id): ?TestingSession
+    {
+        return $this->testingSessionRepository->findById($id);
+    }
 }

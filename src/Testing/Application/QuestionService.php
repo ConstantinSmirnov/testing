@@ -20,12 +20,17 @@ class QuestionService
             $answeredQuestions = explode(',', $testingSession->getQuestion());
             $questions = $this->questionRepository->findAllNotIn($answeredQuestions);
         } else {
-            $questions = $this->questionRepository->findAll();
+            $questions = $this->questionRepository->findAllQuestions();
         }
 
         shuffle($questions);
 
         return $questions;
+    }
+
+    public function findQuestionById(int $id)
+    {
+        return $this->questionRepository->findById($id);
     }
 
 }

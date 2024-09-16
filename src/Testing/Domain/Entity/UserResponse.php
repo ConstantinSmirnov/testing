@@ -12,6 +12,14 @@ class UserResponse
     private User $user;
     private TestingSession $testingSession;
 
+    public function __construct(Question $question, Answer $answer, User $user, TestingSession $testingSession)
+    {
+        $this->question = $question;
+        $this->answer = $answer;
+        $this->user = $user;
+        $this->testingSession = $testingSession;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -35,5 +43,10 @@ class UserResponse
     public function getTestingSession(): TestingSession
     {
         return $this->testingSession;
+    }
+
+    public function setAnswer(Answer $answer)
+    {
+        $this->answer = $answer;
     }
 }
