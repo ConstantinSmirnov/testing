@@ -6,77 +6,92 @@ use App\Shared\Infrastructure\Controller\BaseController;
 use App\Shared\Infrastructure\Helpers\ResponseHelper;
 use App\Testing\Application\TestingSessionService;
 use App\Testing\Application\UserResponseService;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Testing\Application\CorrectAnswerService;
 
-#[Route('/result', name: 'testing_session_result', methods: ['POST'])]
-class UserTestingResults extends BaseController
+#[Route('/result', name: 'testing_session_result', methods: ['GET'])]
+class UserTestingResultsController extends BaseController
 {
     use ResponseHelper;
 
-    private array $requireParams = ['session', 'ulid'];
+    private array $requireParams = ['session'];
     private TestingSessionService $testingSessionService;
     private UserResponseService $userResponseService;
+    private CorrectAnswerService $correctAnswerService;
 
     public function __construct(TestingSessionService $testingSessionService,
-                                UserResponseService $userResponseService
+                                UserResponseService $userResponseService,
+                                CorrectAnswerService $correctAnswerService
     )
     {
         $this->testingSessionService = $testingSessionService;
         $this->userResponseService = $userResponseService;
+        $this->correctAnswerService = $correctAnswerService;
+    }
+
+    #[ArrayShape(['rights' => "array", 'fails' => "array"])]
+    private function getResults(array $sessionAnswers): array
+    {
+        $results = [
+            'rights' => [],
+            'fails' => []
+        ];
+
+        foreach ($sessionAnswers as $key => $value) {
+            $correctAnswers = $this->correctAnswerService->getAllAnswers($key);
+            $userAnswers = $value['answers'];
+            sort($userAnswers);
+
+            $isCorrect = false;
+
+            foreach ($correctAnswers as $correctAnswer) {
+                $correctArr = explode(',', $correctAnswer->getCombination());
+                sort($correctArr);
+
+                if ($userAnswers == $correctArr) {
+                    $isCorrect = true;
+                    break;
+                }
+            }
+
+            if ($isCorrect) {
+                $results['rights'][] = $value['question'];
+            } else {
+                $results['fails'][] = $value['question'];
+            }
+        }
+
+        return $results;
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        if ($this->isBodyEmpty($request)) {
+        if ($this->isRequestParamEmpty($request, $this->requireParams[0])) {
             return $this->errorBadRequest('Empty request content');
-//            return $this->json(
-//                ['status' => 'error', 'error' => 'Empty request content'],
-//                Response::HTTP_BAD_REQUEST
-//            );
-        };
-//        $content = $request->getContent();
-//        if (empty($content)) {
-//            return $this->json(
-//                ['status' => 'error', 'error' => 'Empty request content'],
-//                Response::HTTP_BAD_REQUEST
-//            );
-//        }
-        $content = [];
-        $data = json_decode($content, true);
-        foreach ($this->requireParams as $param) {
-            if (!isset($data[$param])) {
-                return $this->json(
-                    ['status' => 'error', 'error' => "Missing parameter: $param"],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
         }
 
-        $session = $this->testingSessionService->findUserSession($data['session']);
-        if (!$session) {
-            return $this->json(
-                ['status' => 'error', 'error' => "Session not found"],
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        if (!$session->isEnd()) {
-            return $this->json(
-                ['status' => 'error', 'error' => "This session is not ended"],
-                Response::HTTP_NOT_FOUND
-            );
+        $sessionId = (int)$request->get('session');
+        $session = $this->testingSessionService->findUserSession($sessionId);
+        if (!$session || !$session->isEnd()) {
+            return $this->errorNotFound('Session not valid');
         }
 
         $userAnswers = $this->userResponseService->getAllUserAnswersBySessionId($session);
+        $sessionAnswers = [];
         foreach ($userAnswers as $userAnswer) {
-            dd($userAnswer->getQuestion()->getId());
+            if (!isset($sessionAnswers[$userAnswer->getQuestion()->getId()])) {
+                $sessionAnswers[$userAnswer->getQuestion()->getId()]['question'] = $userAnswer->getQuestion()->getText();
+                $sessionAnswers[$userAnswer->getQuestion()->getId()]['answers'] = [];
+            }
+            array_push(
+                $sessionAnswers[$userAnswer->getQuestion()->getId()]['answers'],
+                $userAnswer->getAnswer()->getId()
+            );
         }
 
-        return $this->json([
-            'status' => 'success'
-        ]);
+        return $this->successOk($this->getResults($sessionAnswers));
     }
 }

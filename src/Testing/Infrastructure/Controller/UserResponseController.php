@@ -2,19 +2,21 @@
 
 namespace App\Testing\Infrastructure\Controller;
 
+use App\Shared\Infrastructure\Controller\BaseController;
+use App\Shared\Infrastructure\Helpers\ResponseHelper;
 use App\Testing\Application\QuestionService;
 use App\Testing\Application\TestingSessionService;
 use App\Testing\Application\UserResponseService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Testing\Application\AnswersService;
 
 #[Route('/answer/save', name: 'user_response', methods: ['POST'])]
-class UserResponseController extends AbstractController
+class UserResponseController extends BaseController
 {
+    use ResponseHelper;
+
     private array $requireParams = ['session', 'question', 'answers'];
     private TestingSessionService $testingSessionService;
     private QuestionService $questionService;
@@ -35,39 +37,23 @@ class UserResponseController extends AbstractController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $content = $request->getContent();
-
-        if (empty($content)) {
-            return $this->json(
-                ['status' => 'error', 'error' => 'Empty request content'],
-                Response::HTTP_BAD_REQUEST
-            );
+        if ($this->isBodyEmpty($request)) {
+            return $this->errorBadRequest('Empty request content');
         }
 
-        $data = json_decode($content, true);
-        foreach ($this->requireParams as $param) {
-            if (!isset($data[$param])) {
-                return $this->json(
-                    ['status' => 'error', 'error' => "Missing parameter: $param"],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
+        $data = json_decode($request->getContent(), true);
+        if (!$this->isRequireParamsExists($data, $this->requireParams)) {
+            return $this->errorBadRequest('Missing parameter');
         }
 
         $session = $this->testingSessionService->findUserSession($data['session']);
         if (!$session) {
-            return $this->json(
-                ['status' => 'error', 'error' => "Session not found"],
-                Response::HTTP_NOT_FOUND
-            );
+            return $this->errorNotFound('Session not valid');
         }
 
         $question = $this->questionService->findQuestionById($data['question']);
         if (!$question) {
-            return $this->json(
-                ['status' => 'error', 'error' => "Question not found"],
-                Response::HTTP_NOT_FOUND
-            );
+            return $this->errorNotFound('Question is not found');
         }
 
         $data['answers'] = array_unique($data['answers']);
@@ -76,10 +62,7 @@ class UserResponseController extends AbstractController
         $answers = [];
 
         if (!empty($errors)) {
-            return $this->json(
-                ['status' => 'error', 'error' => "Answers not found: " . implode(', ', $errors)],
-                Response::HTTP_NOT_FOUND
-            );
+            return $this->errorNotFound('Answers not found');
         }
 
         foreach ($data['answers'] as $answerId) {
@@ -95,9 +78,8 @@ class UserResponseController extends AbstractController
             $this->userResponseService->handleRequest($question, $answer, $session->getUser(), $session);
         }
 
-        return $this->json(
-            ['status' => 'success', 'session' => $session->getId(), 'isEnd' => $session->isEnd()],
-            Response::HTTP_CREATED
-        );
+        $returnedData = ['session' => $session->getId(), 'isEnd' => $session->isEnd()];
+
+        return $this->successCreated($returnedData);
     }
 }

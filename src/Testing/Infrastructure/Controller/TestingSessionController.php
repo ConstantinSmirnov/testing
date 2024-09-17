@@ -2,17 +2,21 @@
 
 namespace App\Testing\Infrastructure\Controller;
 
+use App\Shared\Infrastructure\Controller\BaseController;
+use App\Shared\Infrastructure\Helpers\ResponseHelper;
 use App\Testing\Application\QuestionService;
 use App\Testing\Application\TestingSessionService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/start', name: 'testing_session', methods: ['POST'])]
-class TestingSessionController extends AbstractController
+class TestingSessionController extends BaseController
 {
+    use ResponseHelper;
+
+    private array $requireParams = ['name'];
     private TestingSessionService $testingSessionService;
     private QuestionService $questionService;
 
@@ -24,57 +28,21 @@ class TestingSessionController extends AbstractController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $content = $request->getContent();
-        if (empty($content)) {
-            return $this->json(
-                ['status' => 'error', 'error' => 'Empty request content'],
-                Response::HTTP_BAD_REQUEST
-            );
+        if ($this->isBodyEmpty($request)) {
+            return $this->errorBadRequest('Empty request content');
         }
 
-        $data = json_decode($content, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return $this->json(
-                ['status' => 'error', 'error' => 'Invalid JSON'],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        $requireParams = ['name'];
-
-        foreach ($requireParams as $param) {
-            if (!isset($data[$param])) {
-                return $this->json(
-                    ['status' => 'error', 'error' => "Missing parameter: $param"],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
+        $data = json_decode($request->getContent(), true);
+        if (!$this->isRequireParamsExists($data, $this->requireParams)) {
+            return $this->errorBadRequest('Missing parameter');
         }
 
         $session = $this->testingSessionService->handleRequest($data['name']);
-        $questions = $this->questionService->handleRequest($session);
-
-        $result = [];
-        foreach ($questions as $question) {
-            $answers = $question->getAnswers();
-
-            $answersArray = [];
-            foreach ($answers as $answer) {
-                $answersArray[] = ['id' => $answer->getId(), 'text' => $answer->getText()];
-            }
-
-            shuffle($answersArray);
-
-            $result[] = [
-                'question' => ['id' => $question->getId(), 'text' => $question->getText()],
-                'answers' => $answersArray
-            ];
-        }
+        $questions = $this->questionService->getQuestionsWithAnswers($session);
 
         return $this->json([
             'status' => 'success',
-            'data' => $result,
+            'data' => $questions,
             'session' => [
                 'id' => $session->getId(),
                 'isEnd' => $session->isEnd()

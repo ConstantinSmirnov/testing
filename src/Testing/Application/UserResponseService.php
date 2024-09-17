@@ -32,4 +32,9 @@ class UserResponseService
         $testingSession->addAnsweredQuestion($question->getId());
         $this->testingSessionRepository->updateAnsweredQuestion($testingSession);
     }
+
+    public function getAllUserAnswersBySessionId(TestingSession $session): ?array
+    {
+        return $this->userResponseRepository->findBySession($session);
+    }
 }

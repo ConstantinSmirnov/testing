@@ -37,33 +37,42 @@ final class Version20240915075015 extends AbstractMigration
 
         // Add correct_answers into questions
         $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (1, '2')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '1')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '2')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '1,2')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '1')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '3')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '1,3')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '1,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '3,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '1,3,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '1')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '1,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (5, '3')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '5')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '4,5')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (7, '2')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (8, '1')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '1')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '3')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '1,3')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '1,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '3,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '1,3,4')");
-        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (10, '4')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '4')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '5')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (2, '4,5')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '7')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '9')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '10')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '7,9')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '7,10')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '9,10')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (3, '7,9,10')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '11')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '14')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (4, '11,14')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (5, '17')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '23')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '24')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (6, '23,24')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (7, '26')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (8, '27')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '31')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '33')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '34')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '31,33')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '31,34')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '33,34')");
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (9, '31,33,34')");
+
+        $this->addSql("INSERT INTO testing_correct_answer (question_id, combination) VALUES (10, '38')");
     }
 
     public function down(Schema $schema): void
