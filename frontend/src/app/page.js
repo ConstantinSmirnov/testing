@@ -88,7 +88,7 @@ export default function Home() {
             if (nextIndex < questions.length) {
                 return nextIndex;
             } else {
-                router.push('/testing')
+                router.push('/testing?session=' + currentSession)
                 return prevIndex;
             }
         });
