@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import styles from "./page.module.css";
 import Result from "../components/Result";
 
@@ -16,7 +15,6 @@ export default function Home() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentSession, setCurrentSession] = useState(0);
     const [isCurrentSessionEnd, setCurrentSessionIsEnd] = useState(false);
-    const router = useRouter();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -91,7 +89,7 @@ export default function Home() {
                 return nextIndex;
             } else {
                 setShowResult(true)
-                // router.push('/testing?session=' + currentSession)
+                setCurrentSessionIsEnd(true)
                 return prevIndex;
             }
         });
@@ -100,10 +98,19 @@ export default function Home() {
 
     const currentQuestion = questions[currentQuestionIndex];
 
+    const handleBack = () => {
+        setShowResult(false);
+        setCurrentSession(0);
+        setCurrentQuestionIndex(0);
+        setCurrentQuestionIndex([])
+        setCurrentSessionIsEnd(false)
+        setQuestions([])
+    }
+
     return (
         <>
-            {isShowResult ? (
-                <Result session={currentSession} />
+            {isCurrentSessionEnd && isShowResult ? (
+                <Result session={currentSession} handleBack={handleBack} />
             ) : (
                 <div className={styles.page}>
                     {questions.length === 0 ? (

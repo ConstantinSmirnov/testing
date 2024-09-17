@@ -24,8 +24,9 @@
 ```
     make dc_up
 ```
-### 6. Go to php-container adn apply migrations
+### 6. Go to php-container and apply migrations
 ```
+    make php_bash
     php bin/console doctrine:migrations:migrate
 ```
 ### 7. Go to browser

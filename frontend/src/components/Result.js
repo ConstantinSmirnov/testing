@@ -2,17 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter, useSearchParams } from 'next/navigation';
 import styles from "../app/page.module.css";
 
-export default function Result(session) {
+export default function Result({session: session, handleBack: handleBack}) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [data, setData] = useState({ rights: [], fails: [] });
-    const router = useRouter();
-    // const searchParams = useSearchParams();
-    // const sessionParam = searchParams.get('session') || 2; // Значение по умолчанию
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,10 +34,10 @@ export default function Result(session) {
         };
 
         fetchData();
-    }, [sessionParam]);
+    }, [session]);
 
     const handleActionMainPage = () => {
-        router.push('/');
+        handleBack()
     };
 
     return (
