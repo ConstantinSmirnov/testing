@@ -2,6 +2,7 @@
 
 namespace App\Testing\Infrastructure\Repository;
 
+use App\Testing\Domain\Entity\TestingSession;
 use App\Testing\Domain\Entity\UserResponse;
 use App\Testing\Domain\Repository\UserResponseRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -22,5 +23,10 @@ class UserResponseRepository extends ServiceEntityRepository implements UserResp
     {
         $this->entityManager->persist($userResponse);
         $this->entityManager->flush();
+    }
+
+    public function findBySession(TestingSession $session): ?array
+    {
+        return $this->findBy(['testingSession' => $session]);
     }
 }

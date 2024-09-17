@@ -41,53 +41,53 @@ final class Version20240915065431 extends AbstractMigration
         $this->addSql('ALTER TABLE testing_answer ADD CONSTRAINT FK_F174F0571E27F6BF FOREIGN KEY (question_id) REFERENCES testing_question (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
 
         // Add data into answers
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '3')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '2')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '0')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '3')"); # 1
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '2')"); # 2
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (1, '0')"); # 3
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '4')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '3 + 1')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '10')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '4')"); # 4
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '3 + 1')"); # 5
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (2, '10')"); # 6
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '1 + 5')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '1')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '6')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '2 + 4')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '1 + 5')"); # 7
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '1')"); # 8
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '6')"); # 9
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (3, '2 + 4')"); # 10
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '8')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '4')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '0')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '0 + 8')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '8')"); # 11
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '4')"); # 12
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '0')"); # 13
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (4, '0 + 8')"); # 14
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '6')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '18')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '10')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '9')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '0')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '6')"); # 15
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '18')"); # 16
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '10')"); # 17
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '9')"); # 18
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (5, '0')"); # 19
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '3')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '9')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '0')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '12')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '5 + 7')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '3')"); # 20
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '9')"); # 21
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '0')"); # 22
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '12')"); # 23
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (6, '5 + 7')"); # 24
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (7, '5')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (7, '14')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (7, '5')"); # 25
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (7, '14')"); # 26
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '16')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '12')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '9')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '5')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '16')"); # 27
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '12')"); # 28
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '9')"); # 29
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (8, '5')"); # 30
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '18')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '9')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '17 + 1')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '2 + 16')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '18')"); # 31
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '9')"); # 32
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '17 + 1')"); # 33
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (9, '2 + 16')"); # 34
 
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '0')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '2')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '8')");
-        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '20')");
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '0')"); # 35
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '2')"); # 36
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '8')"); # 37
+        $this->addSql("INSERT INTO testing_answer (question_id, text) VALUES (10, '20')"); # 38
     }
 
     public function down(Schema $schema): void

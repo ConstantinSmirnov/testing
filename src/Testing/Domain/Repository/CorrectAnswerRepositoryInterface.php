@@ -1,8 +1,8 @@
 <?php
 
-namespace Testing\Domain\Repository;
+namespace App\Testing\Domain\Repository;
 
-class CorrectAnswerRepositoryInterface
+interface CorrectAnswerRepositoryInterface
 {
-
+    public function findAllAnswersByQuestionId(int $id): ?array;
 }

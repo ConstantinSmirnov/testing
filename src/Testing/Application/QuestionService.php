@@ -33,4 +33,26 @@ class QuestionService
         return $this->questionRepository->findById($id);
     }
 
+    public function getQuestionsWithAnswers(TestingSession $testingSession): array
+    {
+        $result = [];
+        foreach ($this->handleRequest($testingSession) as $question) {
+            $answers = $question->getAnswers();
+
+            $answersArray = [];
+            foreach ($answers as $answer) {
+                $answersArray[] = ['id' => $answer->getId(), 'text' => $answer->getText()];
+            }
+
+            shuffle($answersArray);
+
+            $result[] = [
+                'question' => ['id' => $question->getId(), 'text' => $question->getText()],
+                'answers' => $answersArray
+            ];
+        }
+
+        return $result;
+    }
+
 }
