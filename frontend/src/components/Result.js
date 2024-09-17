@@ -3,16 +3,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import styles from "../page.module.css";
+import styles from "../app/page.module.css";
 
-export default function TestingPage() {
+export default function Result(session) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [data, setData] = useState({ rights: [], fails: [] });
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const sessionParam = searchParams.get('session')
+    // const searchParams = useSearchParams();
+    // const sessionParam = searchParams.get('session') || 2; // Значение по умолчанию
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,17 +22,16 @@ export default function TestingPage() {
             try {
                 const response = await axios.get('http://127.0.0.1:888/api/v1/testing/result', {
                     params: {
-                        session: sessionParam
+                        session: session
                     },
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 });
                 setData(response.data.data || { rights: [], fails: [] });
-                setModalVisible(false);
-                setSubmitting(false);
             } catch (error) {
                 setErrorMessage(error.response?.data?.error || 'An error occurred');
+            } finally {
                 setModalVisible(false);
                 setSubmitting(false);
             }
@@ -43,7 +42,7 @@ export default function TestingPage() {
 
     const handleActionMainPage = () => {
         router.push('/');
-    }
+    };
 
     return (
         <div className={styles.page}>

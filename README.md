@@ -6,7 +6,7 @@
 ```
     cd testing
 ```
-### 2. Create .env file in project dir and add data from .env.dist
+### 2. Create .env file in project dir and add data from .env.test
 ```
     touch .env
 ```

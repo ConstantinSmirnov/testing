@@ -4,10 +4,12 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import styles from "./page.module.css";
+import Result from "../components/Result";
 
 export default function Home() {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
+    const [isShowResult, setShowResult] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [questions, setQuestions] = useState([]);
     const [selectedAnswers, setSelectedAnswers] = useState(new Set());
@@ -88,7 +90,8 @@ export default function Home() {
             if (nextIndex < questions.length) {
                 return nextIndex;
             } else {
-                router.push('/testing?session=' + currentSession)
+                setShowResult(true)
+                // router.push('/testing?session=' + currentSession)
                 return prevIndex;
             }
         });
@@ -98,62 +101,69 @@ export default function Home() {
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-        <div className={styles.page}>
-            {questions.length === 0 ? (
-                <main className={styles.main}>
-                    <h1>Testing tasks</h1>
-                    <form method="post" className={styles.form} onSubmit={handleSubmit}>
-                        <label htmlFor="username">Enter username:</label>
-                        <input type="text" id="username" name="username" required />
-                        <button type="submit">Submit</button>
-                    </form>
-                </main>
+        <>
+            {isShowResult ? (
+                <Result session={currentSession} />
             ) : (
-                <main className={styles.main}>
-                    {currentQuestion ? (
-                        <div>
-                            <h1>Answer the questions</h1>
-                            <form method="post" onSubmit={saveAnswerSubmit}>
-                                <div className={styles.question_row}>
-                                    <div className={styles.question_wrapper}>
-                                        <span>{currentQuestion.question.id} question... {currentQuestion.question.text}</span>
-                                    </div>
-                                    <div className={styles.answer_containter}>
-                                        {currentQuestion.answers.map((answer) => (
-                                            <div key={answer.id} className={styles.answer_wrapper}>
-                                                <div className={styles.answer_row}>
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`answer_${answer.id}`}
-                                                        name={`answer_${answer.id}`}
-                                                        onChange={() => handleAnswerChange(answer.id)}
-                                                    />
-                                                    <label htmlFor={`answer_${answer.id}`}>{answer.text}</label>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <button type="submit">Submit</button>
-                                </div>
+                <div className={styles.page}>
+                    {questions.length === 0 ? (
+                        <main className={styles.main}>
+                            <h1>Testing tasks</h1>
+                            <form method="post" className={styles.form} onSubmit={handleSubmit}>
+                                <label htmlFor="username">Enter username:</label>
+                                <input type="text" id="username" name="username" required />
+                                <button type="submit">Submit</button>
                             </form>
-                        </div>
+                        </main>
                     ) : (
-                        <h1>Loading...</h1>
+                        <main className={styles.main}>
+                            {currentQuestion ? (
+                                <div>
+                                    <h1>Answer the questions</h1>
+                                    <form method="post" onSubmit={saveAnswerSubmit}>
+                                        <div className={styles.question_row}>
+                                            <div className={styles.question_wrapper}>
+                                                <span>{currentQuestion.question.id} question... {currentQuestion.question.text}</span>
+                                            </div>
+                                            <div className={styles.answer_containter}>
+                                                {currentQuestion.answers.map((answer) => (
+                                                    <div key={answer.id} className={styles.answer_wrapper}>
+                                                        <div className={styles.answer_row}>
+                                                            <input
+                                                                type="checkbox"
+                                                                id={`answer_${answer.id}`}
+                                                                name={`answer_${answer.id}`}
+                                                                onChange={() => handleAnswerChange(answer.id)}
+                                                            />
+                                                            <label htmlFor={`answer_${answer.id}`}>{answer.text}</label>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <button type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            ) : (
+                                <h1>Loading...</h1>
+                            )}
+                        </main>
                     )}
-                </main>
-            )}
 
-            <div className={`${styles.modal} ${isModalVisible ? styles.show : ''}`}>
-                <div className={styles.modal_content}>
-                    {isSubmitting ? (
-                        <p>Sending data, please wait...</p>
-                    ) : errorMessage ? (
-                        <p>{errorMessage}</p>
-                    ) : (
-                        <p>Data has been sent!</p>
-                    )}
+                    <div className={`${styles.modal} ${isModalVisible ? styles.show : ''}`}>
+                        <div className={styles.modal_content}>
+                            {isSubmitting ? (
+                                <p>Sending data, please wait...</p>
+                            ) : errorMessage ? (
+                                <p>{errorMessage}</p>
+                            ) : (
+                                <p>Data has been sent!</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )
+            }
+        </>
     );
 }
